@@ -1,4 +1,4 @@
-const mongoose = require('mongooose')
+const mongoose = require('mongoose')
 
 const transactionSchema = new mongoose.Schema({
     fromAccount:{
@@ -21,7 +21,7 @@ const transactionSchema = new mongoose.Schema({
     status:{
         type:String,
         enum:{
-            values:['PENDING','COMPLETED','FAILED','REVERTED']
+            values:['PENDING','COMPLETED','FAILED','REVERSED']
         },
         default:'PENDING'
     },

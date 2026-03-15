@@ -47,6 +47,13 @@ const sendRegistrationEmail = async (to, name) => {
   await sendEmail(to, subject, text, html);
 };
 
-module.exports = { sendEmail, sendRegistrationEmail, transporter };
+const sendTransactionEmail = async (to, name, amount, type) => {
+  const subject = `Transaction Alert: ${type} of $${amount}`;
+  const text = `Hi ${name},\n\nA ${type} of $${amount} has been made on your account. If you did not authorize this transaction, please contact our support team immediately.\n\nBest regards,\nThe Banking Team`;
+  const html = `<p>Hi ${name},</p><p>A <strong>${type}</strong> of <strong>$${amount}</strong> has been made on your account. If you did not authorize this transaction, please contact our support team immediately.</p><p>Best regards,<br>The Banking Team</p>`;
+  await sendEmail(to, subject, text, html);
+}
+
+module.exports = { sendEmail, sendRegistrationEmail,sendTransactionEmail, transporter };
 
 

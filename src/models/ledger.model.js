@@ -30,3 +30,20 @@ const ledgerSchema = new mongoose.Schema({
         required:[true,'ledger type is required']
     }
 },{timestamps:true})
+
+function preventLedgerModification(next){
+    throw new Error('ledger modifications are immutable')
+}
+
+ledgerSchema.pre('findOne',preventLedgerModification);
+ledgerSchema.pre('findOneAndUpdate',preventLedgerModification);
+ledgerSchema.pre('findOneAndDelete',preventLedgerModification);
+ledgerSchema.pre('findOneAndReplace',preventLedgerModification);
+ledgerSchema.pre('updateMany',preventLedgerModification);
+ledgerSchema.pre('updateOne',preventLedgerModification);
+ledgerSchema.pre('remove',preventLedgerModification);
+ledgerSchema.pre('deleteOne',preventLedgerModification);
+ledgerSchema.pre('deleteMany',preventLedgerModification);
+
+const ledgerModel = mongoose.model('ledger',ledgerSchema)
+module.exports= {ledgerModel}
