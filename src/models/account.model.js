@@ -27,26 +27,26 @@ accountSchema.index({ user: 1, status: 1 }) // one to one relationship between u
 
 accountSchema.methods.getBalance = async function () {
     const balanceData = await ledgerModel.aggregate([
-        {
-            $match: { account: this._id },
-            $group: {
+        
+          {  $match: { account: this._id },},
+           { $group: {
                 _id: null,
                 totalDebit: {
                     $sum: {
-                        $cond: [{ $eq: ['type', 'DEBIT'] }, "amount", 0],
+                        $cond: [{ $eq: ['$type', 'DEBIT'] }, "$amount", 0],
                     }
                 },
                 totalCredit: {
                     $sum: {
-                        $cond: [{ $eq: ['type', 'CREDIT'] }, "amount", 0]
+                        $cond: [{ $eq: ['$type', 'CREDIT'] }, "$amount", 0]
                     }
                 },
-            },
-            $project: {
+            },},
+          {  $project: {
                 _id: 0,
-                balance: { $subtract: ["totalCredit","$totalDebit"] }
-            }
-        }
+                balance: { $subtract: ["$totalCredit","$totalDebit"] }
+            }}
+        
     ])
 
     if(balanceData.length===0){

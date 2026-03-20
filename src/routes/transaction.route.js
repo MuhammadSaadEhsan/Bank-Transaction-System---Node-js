@@ -12,5 +12,6 @@ const transactionController = require('../controllers/transaction.controller')
  * - protected route 
 */ 
 router.post('/',authMiddleware.authMiddleware,transactionController.createTransaction)
+router.post('/system/initial-funds',authMiddleware.authSystemUserMiddleware,transactionController.createInitialFundsTransactions)
 
 module.exports = router;

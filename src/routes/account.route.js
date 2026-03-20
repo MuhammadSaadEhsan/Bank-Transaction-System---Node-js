@@ -12,5 +12,7 @@ const accountController = require('../controllers/account.controller')
  * - protected route 
 */ 
 router.post('/',authMiddleware.authMiddleware,accountController.createAccountController)
+router.get('/',authMiddleware.authMiddleware,accountController.getUserAccountController)
+router.get('/balance/:accountId',authMiddleware.authMiddleware,accountController.getAccountBalance)
 
 module.exports = router;
