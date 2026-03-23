@@ -39,6 +39,11 @@ const getAccountBalance = async(req,res) =>{
                 message:"account not found"
             })
         }
+        if(!account.user.equals(req.user._id)){
+            return res.status(403).send({
+                message:"unauthorized access to account balance"
+            })
+        }
 
         const balance = await account.getBalance()
         return res.status(200).send({

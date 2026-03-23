@@ -1,11 +1,18 @@
 const jwt = require('jsonwebtoken');
-const userModel = require("../models/user.model")
+const userModel = require("../models/user.model");
+const tokenBlackListModel = require('../models/blackList.model');
 
 async function authMiddleware(req, res, next) {
     const token = req.cookies.token || req.headers['authorization']?.split(' ')[1];
     if(!token){
         return res.status(401).json({
             message:"Unauthorized access, token is missing"
+        })
+    }
+    const isBlackListedToken = await tokenBlackListModel.findOne({token});
+    if(isBlackListedToken){
+        return res.status(401).json({
+            message:"Unauthorized access, token is expired"
         })
     }
     const decoded = jwt.verify(token,process.env.JWT_SECRET)
@@ -17,7 +24,6 @@ async function authMiddleware(req, res, next) {
     }
     req.user = user;
     next();
-
 }
 async function authSystemUserMiddleware(req,res,next){
     try{
@@ -26,6 +32,12 @@ async function authSystemUserMiddleware(req,res,next){
         if(!token){
             return res.status(401).send({
             message:"Unauthorized access, token is missing"
+        })
+    }
+    const isBlackListedToken = await tokenBlackListModel.findOne({token});
+    if(isBlackListedToken){
+        return res.status(401).json({
+            message:"Unauthorized access, token is expired"
         })
     }
     const decoded = jwt.verify(token,process.env.JWT_SECRET)
