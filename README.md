@@ -75,7 +75,7 @@ balance = totalCredit - totalDebit
 ### 1) Clone and install
 
 ```bash
-git clone <https://github.com/MuhammadSaadEhsan/Bank-Transaction-System---Node-js.git>
+git clone https://github.com/MuhammadSaadEhsan/Bank-Transaction-System---Node-js.git
 cd Bank-Transaction-System
 npm install
 ```
